@@ -1,0 +1,15 @@
+DATE ( 
+/*YEAR*/ 
+YEAR(Start_Date__c) + FLOOR((MONTH(Start_Date__c) + Months_Duration__c - 1)/12), 
+/*MONTH*/ 
+CASE(MOD(MONTH(Start_Date__c) + Months_Duration__c, 12 ), 0, 12, MOD(MONTH(Start_Date__c)+ Months_Duration__c, 12 )), 
+/*DAY*/ 
+MIN(DAY(Start_Date__c), 
+CASE(MOD(MONTH(Start_Date__c) + Months_Duration__c,12), 9, 30, 4, 30, 6, 30, 11, 30, 2, 
+/* return max days for February dependent on if end date is leap year */ 
+IF(MOD(YEAR(Start_Date__c) + FLOOR((MONTH(Start_Date__c) + Months_Duration__c)/12), 400) = 0 || (MOD(YEAR(Start_Date__c) + FLOOR((MONTH(Start_Date__c) + Months_Duration__c)/12), 4) = 0 && MOD(YEAR(Start_Date__c) + FLOOR((MONTH(Start_Date__c) + Months_Duration__c)/12), 100) <> 0 
+), 
+
+29,28),
+31)) 
+)
