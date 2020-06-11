@@ -1,0 +1,10 @@
+List<Contact> records = 
+    [select Id, account.name, Validate_Cleanliness__c, Skip_Duplicate_Check__c, LastModifiedDate, LastModifiedById from contact where  account.name = 'Whereabouts Unknown' and LastModifiedDate < 2020-06-10T22:30:00.000Z limit 200];
+for(Contact record: records) {
+      record.Validate_Cleanliness__c = true; 
+      record.Skip_Duplicate_Check__c = true;
+      } 
+update records; 
+System.debug(records.size() + ' records selected');
+System.assertNotEquals(0, records.size(), 'No more records to process');
+
